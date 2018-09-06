@@ -82,7 +82,8 @@ $('#channel-list').on('click', '.add-url', function() {
         .pop() - 1
   $section.append(`
     <div class="form-group">
-      <label class="form-label">URL ${id}</label><input class="form-input input-lg pad-right" type="text" name="URLs[${groupId}]" placeholder="http://192.168.1.100/page.html">
+      <label class="form-label">URL ${id}</label><input class="form-input input-lg pad-right" type="text" name="URLs" placeholder="http://192.168.1.100/page.html">
+      <input class="form-input input-lg pad-right" type="number" name="durations" placeholder="Durations">
       <button class="btn btn-lg btn-link remove-url">
         <i class="fa fa-trash"></i>
       </button>

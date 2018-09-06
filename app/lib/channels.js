@@ -19,7 +19,10 @@ const func = {
   list: () => channels,
   withId: id => channels.find(c => c._id == id),
   create: (opts, callback) => {
+    
     var c = new Channel(opts)
+    console.log("channel create =>",opts);
+
     c.save((err, channel) => {
       if (err) console.log(err)
       channels.push(c)
@@ -27,9 +30,11 @@ const func = {
     })
   },
   update: (id, opts, callback) => {
+    console.log("update ==>",opts);
     Channel.update({ _id: id }, opts, err => {
       Object.assign(func.withId(id), opts)
       opts._id = id
+      console.log("update=>",opts);
       devices.updateChannel(opts, () => callback(id))
     })
   },

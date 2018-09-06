@@ -5,7 +5,8 @@ const Schema = mongoose.Schema
 const ChannelSchema = new Schema({
   name: String,
   layout: String,
-  URLs: [[String]],
+  URLs: [String],
+  durations:[String],
   duration: Number
 })
 

@@ -72,6 +72,7 @@ router
   .route('/:device_id/edit')
   .get((req, res) => {
     let d = devices.withId(req.params.device_id)
+    console.log("devices=>",JSON.stringify(d));
     if (d) {
       res.render('index', {
         render: 'device',
@@ -113,11 +114,40 @@ router
 
 router.get('/:device_id/:preview*?', (req, res) => {
   let d = devices.withId(req.params.device_id)
+   let channel = d.channel;
+   let newChannel = null;
+
+   if(channel){
+    let urls =[]
+    for (let i =0; i<= channel.URLs.length;i++){
+      if(channel.URLs[i] !=='' && channel.durations[i] !== ''){
+        let u = {
+          url : channel.URLs[i],
+          duration: channel.durations[i]
+        }
+        urls.push(u);
+      }
+    }
+ // let newUrls = urls.filter(function(v){return v.url!==''})
+   //channel.list = newUrls;
+   newChannel = {
+    list: urls,
+    _id:channel._id,
+    name:channel.name,
+    layout:channel.layout,
+    duration:channel.duration,
+    URLs:channel.URLs
+  }
+
+   }
+  
+  
   if (d && takeover.isActive()) {
+    console.log("device preview active :: ",d);
     res.render(`layouts/${takeover.channel().layout}`, {
       deviceId: req.params.device_id,
       channel: takeover.channel(),
-      rotation: d.rotation,
+      rotation: newChannel,
       casting: !req.params.preview
     })
   } else {
@@ -127,7 +157,7 @@ router.get('/:device_id/:preview*?', (req, res) => {
           display device page */
         res.render(`layouts/${d.channel.layout}`, {
           deviceId: req.params.device_id,
-          channel: d.channel,
+          channel: newChannel,
           rotation: d.rotation,
           casting: !req.params.preview
         })

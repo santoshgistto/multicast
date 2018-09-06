@@ -26,30 +26,31 @@ form#edit-channel
 
   #channel-list
     if channel
-      each URLs, i in channel.URLs
+      each URLs, i in channel.list
         .display-section.visible
           div
             label.form-label.label-lg Section #{i+1}
-            each url, j in URLs
               .form-group
-                label.form-label URL #{j+1}
-                input.form-input.input-lg(class=(j > 0 ? 'pad-right' : ''), type='text', name='URLs[' + i + ']', placeholder='http://192.168.1.100/page.html', value=url)
-                if j > 0
+                label.form-label URL #{i+1}
+                input.form-input.input-lg(type='text', name='URLs', placeholder='http://192.168.1.100/page.html', value=URLs.url)
+                input.form-input.input-lg(class=(i > 0 ? 'pad-right' : ''), type='number', name='durations', placeholder='duration', value=URLs.duration)
+                if i > 0
                   button.btn.btn-lg.btn-link.remove-url
                     i.fa.fa-trash
           button.btn.btn-link.mt-1.add-url
             i.fa.fa-plus.mr-2
             | Add Another URL
-    - var maxSectionCount = 4
+    - var maxSectionCount = 10
     - var length = 0
-    - if (channel && channel.URLs) length = channel.URLs.length
+    - if (channel && channel.list) length = channel.list.length
     each url, i in [...Array(maxSectionCount - length)]
       .display-section
         div
           label.form-label.label-lg Section #{length+i+1}
           .form-group
             label.form-label URL 1
-            input.form-input.input-lg(type='text', name='URLs[' + (length+i) + ']', placeholder='http://192.168.1.100/page.html')
+            input.form-input.input-lg(type='text', name='URLs', placeholder='http://192.168.1.100/page.html')
+            input.form-input.input-lg(type='number', name='durations', placeholder='Durations')
         button.btn.btn-link.mt-1.add-url
           i.fa.fa-plus.mr-2
           | Add Another URL
